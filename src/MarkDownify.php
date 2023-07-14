@@ -115,35 +115,49 @@ class MarkDownify
 
     private function convertTables($text)
     {
-        // Convert tables
-        return preg_replace_callback('/^\|(.+)\|\n\|( ?[-:]+ ?\|)+\n((?:\|.*\|\n)*)/m', function ($matches) {
-            $headerRow = trim($matches[1]);
-            $alignments = trim($matches[2]);
-            $bodyRows = trim($matches[3]);
-
-            $headers = explode('|', $headerRow);
-            $alignments = preg_split('/\s*\|\s*/', $alignments, -1, PREG_SPLIT_NO_EMPTY);
-            $rows = explode("\n", $bodyRows);
-
-            $table = '<table><thead><tr>';
-            foreach ($headers as $index => $header) {
-                $alignment = isset($alignments[$index]) ? $alignments[$index] : '';
-                $table .= "<th align=\"$alignment\">$header</th>";
-            }
-            $table .= '</tr></thead><tbody>';
-            foreach ($rows as $row) {
-                $columns = explode('|', $row);
-                $table .= '<tr>';
-                foreach ($columns as $index => $column) {
-                    $alignment = isset($alignments[$index]) ? $alignments[$index] : '';
-                    $table .= "<td align=\"$alignment\">$column</td>";
+        // Split the markdown text into lines
+        $lines = explode("\n", $text);
+        
+        // Initialize the HTML table string
+        $html = "<table>\n";
+        
+        // Loop through each line
+        foreach ($lines as $i => $line) {
+            // Split the line into cells
+            $cells = explode("|", trim($line));
+            
+            // Debug: Print the cells
+            //echo "Line $i: ";
+            //print_r($cells);
+            //echo "<br>";
+            
+            // If it's the first line, it's the header
+            if ($i == 0) {
+                $html .= "\t<thead>\n\t\t<tr>\n";
+                foreach ($cells as $cell) {
+                    $html .= "\t\t\t<th>" . trim($cell) . "</th>\n";
                 }
-                $table .= '</tr>';
+                $html .= "\t\t</tr>\n\t</thead>\n";
+            } 
+            // If it's the second line, ignore it because it's the separator
+            else if ($i == 1) {
+                continue;
+            } 
+            // Otherwise, it's a regular row
+            else {
+                $html .= "\t<tr>\n";
+                foreach ($cells as $cell) {
+                    $html .= "\t\t<td>" . trim($cell) . "</td>\n";
+                }
+                $html .= "\t</tr>\n";
             }
-            $table .= '</tbody></table>';
-
-            return $table;
-        }, $text);
+        }
+        
+        // Close the HTML table string
+        $html .= "</table>\n";
+        
+        // Return the HTML table
+        return $html;
     }
 
     private function convertFootnotes($text)

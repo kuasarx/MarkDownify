@@ -1,0 +1,34 @@
+{
+  "name": "kuasarx/markdownify",
+  "description": "MarkDownify - A PHP library for parsing Markdown into HTML code",
+  "type": "library",
+  "authors": [
+    {
+      "name": "Juan Camacho",
+      "homepage": "https://github.com/kuasarx"
+    }
+  ],
+  "require": {
+    "php": "^7.4",
+    "your-dependencies": "^1.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "MarkDownify\\": "src/"
+    }
+  },
+  "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/kuasarx/MarkDownify"
+        }
+    ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "license": "MIT"
+  "keywords": [
+        "php",
+        "Markdown",
+        "parse"
+    ],
+}

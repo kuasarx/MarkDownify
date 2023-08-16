@@ -51,6 +51,21 @@ To use MarkDownify in your PHP project, follow these steps:
 
 4. Use the parsed HTML in your application as needed.
 
+## CSS Styling
+
+Here's how you can add CSS to the page to achieve a GitHub-like look:
+- Include GitHub Markdown CSS
+
+```html
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css">
+```
+- Style Your Container:
+Wrap the generated HTML output from MarkDownify in a `<div>` element with the class `markdown-body`. This class is defined in the GitHub Markdown CSS and applies the styling consistent with GitHub's Markdown rendering.
+
+```php
+    echo '<div class="markdown-body">' . $html . '</div>';
+```
+
 ## Examples
 ### Example 1: Basic Usage
 
